@@ -56,6 +56,7 @@ memory_info=$(free -m)
 used_memory=$(echo "$memory_info" | awk 'NR==2 {print $3}')
 total_memory=$(echo "$memory_info" | awk 'NR==2 {print $2}')
 memory_format=$(printf "%.1fMiB/%.1fMiB" $used_memory $total_memory)
+swap_info=$(free -m | awk '/^Swap/ {used=$3; total=$2; printf "%.1f MiB / %.1f MiB", used, total}')
 
 LIGHTGREEN="\033[1;32m"
 WHITE="\033[0m"
@@ -67,4 +68,5 @@ echo -e "${LIGHTGREEN}     V \\ ${WHITE}v${LIGHTGREEN} / V   kernel: ${WHITE}${k
 echo -e "${LIGHTGREEN}       / - \\     uptime: ${WHITE}${uptime_formatted}"
 echo -e "${LIGHTGREEN}      /    |     packages: ${WHITE}${packages}"
 echo -e "${LIGHTGREEN}(    /     |     cpu: ${WHITE}${cpu}"
-echo -e "${LIGHTGREEN} ===/___) ||     ram: ${WHITE}${memory_format}"
+echo -e "${LIGHTGREEN}    /     ||     ram: ${WHITE}${memory_format}"
+echo -e "${LIGHTGREEN} ===/___) ||     swap: ${WHITE}${swap_info}"
